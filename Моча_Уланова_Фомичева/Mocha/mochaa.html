@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
+    <script>
+        mocha.setup('bdd');
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+    <script>
+        let assert = chai.assert;
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input {
+            margin: 5px;
+            padding: 10px;
+            width: 100px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+  .button {
+    background-color: #4CAF50; /* Зеленый цвет фона */
+    border: none; /* Убрать обводку */
+    color: white; /* Белый цвет текста */
+    padding: 15px 32px; /* Отступы внутри кнопки (верх/низ, лево/право) */
+    text-align: center; /* Выровнять текст по центру */
+    text-decoration: none; /* Убрать подчеркивание у ссылок */
+    display: inline-block; /* Позволяет задавать ширину и высоту */
+    font-size: 16px; /* Размер шрифта */
+    cursor: pointer; /* Изменить курсор при наведении */
+    border-radius: 5px; /* Закругленные углы */
+  }
+
+  .button:hover {
+    background-color: #3e8e41; /* Более темный зеленый при наведении */
+  }
+
+    </style>
+</head>
+<body>
+    <script src="./test.js"></script>
+    <div id="mocha"></div>
+    <script>
+        mocha.run();
+    </script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Калькулятор</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
+    <script>
+        mocha.setup('bdd');
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+    <script>
+        let assert = chai.assert;
+    </script>
+    <style>
+         /* Стили для кнопки */
+  .button {
+    background-color: #4CAF50; /* Зеленый цвет фона */
+    border: none; /* Убрать обводку */
+    color: white; /* Белый цвет текста */
+    padding: 15px 32px; /* Отступы внутри кнопки (верх/низ, лево/право) */
+    text-align: center; /* Выровнять текст по центру */
+    text-decoration: none; /* Убрать подчеркивание у ссылок */
+    display: inline-block; /* Позволяет задавать ширину и высоту */
+    font-size: 16px; /* Размер шрифта */
+    cursor: pointer; /* Изменить курсор при наведении */
+    border-radius: 5px; /* Закругленные углы */
+  }
+
+  .button:hover {
+    background-color: #3e8e41; /* Более темный зеленый при наведении */
+  }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .calculator {
+            width: 320px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+.calculator h1{
+    text-align: center;
+}
+        input[type="number"] {
+            width: calc(100% - 10px); /* Равномерно заполняют строку */
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; /* Важно для учета padding и border */
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            margin-top: 10px;
+        }
+.butt{
+    
+    display: flex
+;
+    justify-content: center;
+    padding: 20px;
+}
+
+        button {
+            padding: 12px 16px;
+            margin: 0; /* Убрал margin здесь, т.к. используется grid gap */
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            transition: background-color 0.3s ease; /* Добавил плавность изменения цвета */
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Добавим стили для кнопки "=" чтобы она выделялась */
+        button:last-child {
+            background-color: #007bff; /* Более яркий цвет */
+        }
+
+        button:last-child:hover {
+            background-color: #0056b3;
+        }
+
+        /* Стили для кнопок квадратного корня и квадрата */
+        .special-button {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <h1>Калькулятор</h1>
+    <input type="number" id="num1" placeholder="Введите первое число">
+    <input type="number" id="num2" placeholder="Введите второе число">
+
+    <div class="buttons">
+        <button onclick="calculate('+')">+</button>
+        <button onclick="calculate('-')">-</button>
+        <button onclick="calculate('*')">*</button>
+        <button onclick="calculate('/')">/</button>
+         <button onclick="calculate('sqrt')">√</button>
+        <button onclick="calculate('square')">x²</button>
+        <button onclick="calculate('%')">%</button>
+        <button onclick="calculate('pow')">x^y</button>
+        <button onclick="calculate('=')">=</button>
+    </div>
+
+    <div id="result">Результат:</div>
+</div>
+
+<script>
+    function formatResult(result) {
+        if (typeof result === 'string') {
+            return result;
+        }
+
+        if (Math.abs(result) > 1e10) {
+            return "Слишком большое";
+        }
+
+        const rounded = parseFloat(result.toFixed(7));
+
+        if (Math.abs(rounded) === 0) {
+            return "Слишком маленькое";
+        }
+
+        return rounded.toString();
+    }
+
+    function calculate(operation) {
+        const num1 = parseFloat(document.getElementById('num1').value);
+        const num2 = parseFloat(document.getElementById('num2').value);
+        let result;
+
+        try {
+            switch (operation) {
+                case '+':
+                    result = num1 + num2;
+                    break;
+                case '-':
+                    result = num1 - num2;
+                    break;
+                case '*':
+                    result = num1 * num2;
+                    break;
+                case '/':
+                    if (num2 === 0) {
+                        throw new Error("Деление на ноль!");
+                    }
+                    result = num1 / num2;
+                    break;
+                 case 'sqrt':
+                    if (num1 < 0) {
+                        throw new Error("Нельзя извлечь корень из отрицательного числа!");
+                    }
+                    result = Math.sqrt(num1);
+                    break;
+                case 'square':
+                    result = num1 * num1;
+                    break;
+                 case '%':
+                    result = num1 % num2;
+                    break;
+                case 'pow':
+                    result = Math.pow(num1, num2);
+                    break;
+                case '=':
+                    // Просто отображаем результат предыдущей операции, если нужно
+                    break;
+                default:
+                    result = "Неизвестная операция";
+            }
+
+            document.getElementById('result').innerText = "Результат: " + formatResult(result);
+
+        } catch (error) {
+            document.getElementById('result').innerText = "Ошибка: " + error.message;
+        }
+    }
+</script>
+<div class="butt">
+<a href="./mochaa.html" class="button"target=_blank>Юнит тесты</a>
+</div>
+</body>
+</html>
